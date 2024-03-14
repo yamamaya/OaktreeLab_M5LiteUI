@@ -20,7 +20,57 @@ git submodule add https://github.com/yamamaya/OaktreeLab_M5LiteUI
 
 ## How to use
 
-Here is the most simple example.
+Here is the most simple example, it shows just a blank screen.
+
+```cpp
+#include <M5Unified.h>
+#include "src/OaktreeLab_M5LiteUI/OaktreeLab_M5LiteUI.h"
+
+using namespace OaktreeLab::M5LiteUI;
+
+// The main screen
+class MainScreen : public UIScreen {
+  public:
+    MainScreen() {
+    }
+
+  protected:
+    // Setup main screen
+    virtual void setup() override {
+    }
+
+    // Update main screen
+    virtual void loop() override {
+    }
+
+    // Draw main screen
+    virtual void draw( DrawingMode dmode ) override {
+    }
+};
+
+static UIBase *uibase;        // OaktreeLab::M5LiteUI core
+static MainScreen *screen;    // An instance of MainScreen
+
+void setup() {
+  M5.begin();
+
+  // Initialize M5LiteUI core
+  uibase = new UIBase( &M5.Display );
+
+  // Create MainScreen and show
+  screen = new MainScreen();
+  uibase->setScreen( screen );
+}
+
+void loop() {
+  M5.update();
+
+  // Update M5LiteUI
+  uibase->loop();
+}
+```
+
+Next, this is the most basic example.
 
 ```cpp
 #include <M5Unified.h>
