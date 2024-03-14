@@ -6,7 +6,13 @@ This is an experimental and under-development lightweight UI library for the M5S
 
 This library is not officially released yet. So, if you want to try it, you need to install manually since automatic installation by Arduino IDE is currently not supported.
 
-Add this library as a submodule to the `src` subfolder within your sketch by the following command:
+Clone this repository to the `src` subfolder within your sketch by the following command:
+
+```
+git clone https://github.com/yamamaya/OaktreeLab_M5LiteUI.git
+```
+
+Or,  add this library as a submodule to the `src` subfolder within your sketch by the following command:
 
 ```
 git submodule add https://github.com/yamamaya/OaktreeLab_M5LiteUI
