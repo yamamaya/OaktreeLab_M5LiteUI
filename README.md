@@ -179,11 +179,11 @@ void loop() {
 
 ## FAQs
 
-###### Are there any plans to support richer graphics and animations?
+### Are there any plans to support richer graphics and animations?
 
 No.
 
-###### Are there any plans to support touch panel?
+### Are there any plans to support touch panel?
 
 Maybe.
 
