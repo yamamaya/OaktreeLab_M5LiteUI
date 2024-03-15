@@ -2,6 +2,8 @@
 
 This is an experimental and under-development lightweight UI library for the M5Stack series.
 
+See demo video here: https://twitter.com/felis_silv/status/1768509469435306318
+
 ## **Installation**
 
 This library is not officially released yet. So, if you want to try it, you need to install manually since automatic installation by Arduino IDE is currently not supported.
