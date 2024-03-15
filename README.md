@@ -233,6 +233,21 @@ void loop() {
 }
 ```
 
+## Element classes
+
+```mermaid
+graph TD;
+    UIElement-->UIWindow;
+    UIWindow-->UIScreen;
+    UIElement-->UIButton;
+    UIElement-->UIImagePanel;
+    UIElement-->UILabel;
+    UILabel-->UINumericLabel;
+    UINumericLabel-->UINumericUpDown;
+    UILabel-->UIUpDownList;
+    UILabel-->UIMarquee;
+```
+
 ## FAQs
 
 ### Are there any plans to support richer graphics and animations?
