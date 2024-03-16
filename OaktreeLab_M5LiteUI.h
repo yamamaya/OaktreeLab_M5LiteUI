@@ -16,5 +16,6 @@
 #include "UIUpDownList.h"     // Up-down list element
 #include "UIButton.h"         // Button
 #include "UIMarquee.h"        // Decorative text label
+#include "UIBarGauge.h"         // Bar gauge
 
 #endif
