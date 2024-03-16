@@ -2,7 +2,7 @@
 
 This is an experimental and under-development lightweight UI library for the M5Stack series.
 
-See demo video here: https://twitter.com/felis_silv/status/1768509469435306318
+See demo video here: [https://twitter.com/felis_silv/status/1768509469435306318](https://twitter.com/felis_silv/status/1769000515134951796)
 
 ## **Installation**
 
