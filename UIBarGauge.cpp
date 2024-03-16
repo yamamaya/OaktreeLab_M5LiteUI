@@ -4,15 +4,9 @@ using namespace OaktreeLab::M5LiteUI;
 
 OaktreeLab::M5LiteUI::UIBarGauge::UIBarGauge( UIElement *parent, const Rectangle &rect, BarGaugeType type ) : UIElement( parent, rect, false ) {
   this->type = type;
-  this->barColor = TFT_NAVY;
   this->scale = false;
   this->scaleCount = 10;
   this->scaleSize = 4;
-}
-
-void OaktreeLab::M5LiteUI::UIBarGauge::setBarColor( int color ) {
-  barColor = color;
-  setUpdate();
 }
 
 void OaktreeLab::M5LiteUI::UIBarGauge::showScale( bool scale ) {
@@ -59,7 +53,7 @@ void OaktreeLab::M5LiteUI::UIBarGauge::draw( DrawingMode dmode ) {
   }
   if ( type == BarGaugeType::Horizontal ) {
     if ( !scale ) {
-      dc.canvas->fillRect( dc.rect.left, dc.rect.top, t, dc.rect.height, barColor );
+      dc.canvas->fillRect( dc.rect.left, dc.rect.top, t, dc.rect.height, fgColor );
       dc.canvas->fillRect( dc.rect.left + t, dc.rect.top, dc.rect.width - t, dc.rect.height, bgColor );
     } else {
       int x = rect.left + t - 1;
@@ -71,17 +65,17 @@ void OaktreeLab::M5LiteUI::UIBarGauge::draw( DrawingMode dmode ) {
           dc.canvas->fillRect( sx1, dc.rect.top, sx2 - sx1 - 1, dc.rect.height, bgColor );
           scale_bar_color = bgColor;
         } else if ( x < sx2 - 1 ) {
-          dc.canvas->fillRect( sx1, dc.rect.top, x - sx1 + 1, dc.rect.height, barColor );
+          dc.canvas->fillRect( sx1, dc.rect.top, x - sx1 + 1, dc.rect.height, fgColor );
           dc.canvas->fillRect( x + 1, dc.rect.top, sx2 - 1 - x - 1, dc.rect.height, bgColor );
           scale_bar_color = bgColor;
         } else {
-          dc.canvas->fillRect( sx1, dc.rect.top, sx2 - sx1 - 1, dc.rect.height, barColor );
-          scale_bar_color = barColor;
+          dc.canvas->fillRect( sx1, dc.rect.top, sx2 - sx1 - 1, dc.rect.height, fgColor );
+          scale_bar_color = fgColor;
         }
         if ( i < scaleCount - 1 ) {
           int sy = dc.rect.top + dc.rect.height - scaleSize;
           dc.canvas->drawLine( sx2 - 1, dc.rect.top, sx2 - 1, sy - 1, scale_bar_color );
-          dc.canvas->drawLine( sx2 - 1, sy, sx2 - 1, dc.rect.top + dc.rect.height, fgColor );
+          dc.canvas->drawLine( sx2 - 1, sy, sx2 - 1, dc.rect.top + dc.rect.height, borderColor );
         } else {
           dc.canvas->drawLine( sx2 - 1, dc.rect.top, sx2 - 1, dc.rect.top + dc.rect.height, scale_bar_color );
         }
@@ -89,7 +83,7 @@ void OaktreeLab::M5LiteUI::UIBarGauge::draw( DrawingMode dmode ) {
     }
   } else if ( type == BarGaugeType::Vertical ) {
     if ( !scale ) {
-      dc.canvas->fillRect( dc.rect.left, dc.rect.top + dc.rect.height - t, dc.rect.width, t, barColor );
+      dc.canvas->fillRect( dc.rect.left, dc.rect.top + dc.rect.height - t, dc.rect.width, t, fgColor );
       dc.canvas->fillRect( dc.rect.left, dc.rect.top, dc.rect.width, dc.rect.height - t, bgColor );
     } else {
       int y = rect.top + rect.height - t;
@@ -101,17 +95,17 @@ void OaktreeLab::M5LiteUI::UIBarGauge::draw( DrawingMode dmode ) {
           dc.canvas->fillRect( dc.rect.left, sy2 + 2, dc.rect.width, sy1 - sy2 - 1, bgColor );
           scale_bar_color = bgColor;
         } else if ( y > sy2 + 1 ) {
-          dc.canvas->fillRect( dc.rect.left, y, dc.rect.width, sy1 - y + 1, barColor );
+          dc.canvas->fillRect( dc.rect.left, y, dc.rect.width, sy1 - y + 1, fgColor );
           dc.canvas->fillRect( dc.rect.left, sy2 + 2, dc.rect.width, y - sy2 - 2, bgColor );
           scale_bar_color = bgColor;
         } else {
-          dc.canvas->fillRect( dc.rect.left, sy2 + 2, dc.rect.width, sy1 - sy2 - 1, barColor );
-          scale_bar_color = barColor;
+          dc.canvas->fillRect( dc.rect.left, sy2 + 2, dc.rect.width, sy1 - sy2 - 1, fgColor );
+          scale_bar_color = fgColor;
         }
         if ( i < scaleCount - 1 ) {
           int sx = dc.rect.left + scaleSize;
           dc.canvas->drawLine( sx + 1, sy2 + 1, dc.rect.left + dc.rect.width, sy2 + 1, scale_bar_color );
-          dc.canvas->drawLine( dc.rect.left, sy2 + 1, sx, sy2 + 1, fgColor );
+          dc.canvas->drawLine( dc.rect.left, sy2 + 1, sx, sy2 + 1, borderColor );
         } else {
           dc.canvas->drawLine( dc.rect.left, sy2 + 1, dc.rect.left + dc.rect.width, sy2 + 1, scale_bar_color );
         }

@@ -23,6 +23,7 @@ namespace OaktreeLab {
         void setFont( const lgfx::IFont *font );
         void setForegroundColor( int color );
         void setBackgroundColor( int color );
+        void setBorderColor( int color );
         void showBorder( bool show );
         void setEventCallback( std::function<void(UIElement*,ElementEvent,uint32_t)> cb );
         void setEnable( bool enable );
@@ -66,6 +67,7 @@ namespace OaktreeLab {
         int bgColorOrg;
         int fgColor;
         int bgColor;
+        int borderColor;
         bool border;
         M5Canvas *backBuffer;
         std::function<void(UIElement*,ElementEvent,uint32_t)> eventCallback;

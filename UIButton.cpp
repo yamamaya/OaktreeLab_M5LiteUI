@@ -44,7 +44,7 @@ void OaktreeLab::M5LiteUI::UIButton::draw( DrawingMode dmode ) {
   }
   if ( dmode == DrawingMode::TotalRedraw && IsFirstTotalRedraw ) {
     // Suppresses total redraw to prevent unsightly flickering. As a side effect of it, this button will have problems redrawing when changing the color and so on.
-    dc.canvas->fillRoundRect( dc.rect.left, dc.rect.top, dc.rect.width, dc.rect.height, CORNER_RADIUS, fgColor );
+    dc.canvas->fillRoundRect( dc.rect.left, dc.rect.top, dc.rect.width, dc.rect.height, CORNER_RADIUS, borderColor );
     IsFirstTotalRedraw = false;
   }
   dc.canvas->fillRoundRect( dc.rect.left+1, dc.rect.top+1, dc.rect.width-2, dc.rect.height-2, CORNER_RADIUS, bgColor );

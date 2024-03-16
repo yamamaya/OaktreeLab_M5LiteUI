@@ -14,6 +14,7 @@ OaktreeLab::M5LiteUI::UIElement::UIElement() {
   this->fgColor = TFT_WHITE;
   this->bgColor = TFT_BLACK;
   this->border = false;
+  this->borderColor = TFT_WHITE;
   this->font = &Font0;
   this->canFocus = false;
   this->hasFocus = false;
@@ -28,6 +29,7 @@ OaktreeLab::M5LiteUI::UIElement::UIElement( UIElement *parent ) : UIElement() {
   this->parent = parent;
   this->fgColor = parent->fgColor;
   this->bgColor = parent->bgColor;
+  this->borderColor = parent->borderColor;
   this->font = parent->font;
 }
 
@@ -87,6 +89,11 @@ void OaktreeLab::M5LiteUI::UIElement::setForegroundColor( int color ) {
 void OaktreeLab::M5LiteUI::UIElement::setBackgroundColor( int color ) {
   this->bgColorOrg = color;
   updateBackgroundColor( color );
+}
+
+void OaktreeLab::M5LiteUI::UIElement::setBorderColor( int color ) {
+  this->borderColor = color;
+  setUpdate( true );
 }
 
 void OaktreeLab::M5LiteUI::UIElement::updateForegroundColor( int color ) {
@@ -250,7 +257,7 @@ void OaktreeLab::M5LiteUI::UIElement::dispatchDraw( DrawingMode dmode ) {
   bool needsRedrawForCursor = ( this->hasFocus && base->CursorStateUpdated );
   if ( dmode == DrawingMode::TotalRedraw || updated || needsRedrawForCursor ) {
     if ( border && dmode == DrawingMode::TotalRedraw ) {
-      display->drawRect( rectElement.left, rectElement.top, rectElement.width, rectElement.height, fgColorOrg );
+      display->drawRect( rectElement.left, rectElement.top, rectElement.width, rectElement.height, borderColor );
     }
     Rectangle rectClient = getClientRectangle();
     display->setClipRect( rectClient.left, rectClient.top, rectClient.width, rectClient.height );

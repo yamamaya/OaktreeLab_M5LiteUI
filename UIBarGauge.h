@@ -16,7 +16,6 @@ namespace OaktreeLab {
       public:
         UIBarGauge( UIElement *parent, const Rectangle &rect, BarGaugeType type );
 
-        void setBarColor( int color );
         void showScale( bool scale );
         void setScaleCount( int count );
         void setScaleSize( int size );
@@ -27,7 +26,6 @@ namespace OaktreeLab {
         virtual void draw( DrawingMode dmode ) override;
 
         BarGaugeType type;
-        int barColor;
         bool scale;
         int scaleCount;
         int scaleSize;
