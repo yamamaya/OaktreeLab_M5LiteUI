@@ -80,7 +80,6 @@ Next, this is the most basic example.
 
 using namespace OaktreeLab::M5LiteUI;
 
-// The main screen
 class MainScreen : public UIScreen {
   public:
     MainScreen() {
@@ -94,34 +93,36 @@ class MainScreen : public UIScreen {
     UIButton *button1;
     UIUpDownList *list1;
     UIImagePanel *imgpanel1;
+    UIBarGauge *bargauge1;
     int BeepFreq = 800;
 
   protected:
-    // Setup main screen
     virtual void setup() override {
-      // Set colors and font to main screen. All child elements inherit them by default.
       this->setForegroundColor( TFT_WHITE );
       this->setBackgroundColor( M5.Lcd.color565( 64, 64, 64 ) );
       this->setFont( &Font2 );
 
-      // Add a decorative text label
       marquee1 = new UIMarquee( this, Rectangle( 20, 20, 280, 30 ), "OaktreeLab::M5LiteUI Demo", MarqueeType::Blink );
       marquee1->setFont( &fonts::FreeMonoBold9pt7b );
       marquee1->setTextAlignment( TextAlignment::MiddleLeft );
       marquee1->setForegroundColor( TFT_GREEN );
       addChild( marquee1 );
 
-      // Add a numeric label
-      // Use backbuffers for frequently updated elements like this to reduce unsightly flicker.
-      // However, backbuffers require a large amount of memory, so use them sparingly.
-      label1 = new UINumericLabel( this, Rectangle( 20, 60, 150, 30 ), true );
+      label1 = new UINumericLabel( this, Rectangle( 20, 60, 120, 30 ), true );
       label1->setTextAlignment( TextAlignment::MiddleCenter );
       label1->setBackgroundColor( TFT_NAVY );
       label1->showBorder( true );
       label1->setFormat( "%08X" );
       addChild( label1 );
 
-      // Add a numeric up-down input
+      bargauge1 = new UIBarGauge( this, Rectangle( 160, 60, 120, 30 ), BarGaugeType::Horizontal );
+      bargauge1->showBorder( true );
+      bargauge1->showScale( true );
+      bargauge1->setForegroundColor( TFT_BLUE );
+      bargauge1->setBackgroundColor( TFT_BLACK );
+      bargauge1->setValueRange( 0, 100 );
+      addChild( bargauge1 );
+
       updown1 = new UINumericUpDown( this, Rectangle( 20, 100, 80, 30 ) );
       updown1->setTextAlignment( TextAlignment::MiddleRight );
       updown1->setBackgroundColor( TFT_NAVY );
@@ -129,7 +130,6 @@ class MainScreen : public UIScreen {
       updown1->setValueStep( 100 );
       updown1->setValue( BeepFreq );
       updown1->setEventCallback( [this](UIElement *sender, ElementEvent event, uint32_t arg) {
-        // Callback process called when value changed
         if ( event == ElementEvent::ValueChanged ) {
           BeepFreq = arg;
           M5.Speaker.tone( BeepFreq, 100 );
@@ -141,19 +141,16 @@ class MainScreen : public UIScreen {
       label2->setTextAlignment( TextAlignment::MiddleLeft );
       addChild( label2 );
 
-      // Add a button
       button1 = new UIButton( this, Rectangle( 160, 100, 80, 30 ), "BEEP" );
       button1->setTextAlignment( TextAlignment::MiddleCenter );
       button1->setBackgroundColor( TFT_NAVY );
       button1->setEventCallback( [this](UIElement *sender, ElementEvent event, uint32_t arg) {
-        // Callback process called when button pushed
         if ( event == ElementEvent::Clicked ) {
           M5.Speaker.tone( BeepFreq, 500 );
         }
       } );
       addChild( button1 );
 
-      // Add a up-down selectable list
       std::vector<const char*> items = { "Rainbow", "Red", "Green", "Blue" };
       list1 = new UIUpDownList( this, Rectangle( 20, 140, 100, 30 ), items );
       list1->setFont( Font2 );
@@ -161,7 +158,6 @@ class MainScreen : public UIScreen {
       list1->setIndex( 0 );
       addChild( list1 );
 
-      // Add a image panel
       M5Canvas *canvas = Utils::createM5Canvas( 16, 16, 16 );
       imgpanel1 = new UIImagePanel( this, Rectangle( 160, 140, 50, 50 ), canvas );
       imgpanel1->showBorder( true );
@@ -169,10 +165,12 @@ class MainScreen : public UIScreen {
       addChild( imgpanel1 );
     }
 
-    // Update main screen
     virtual void loop() override {
       // Update label1 (UINumericLabel)
       label1->setValue( (int32_t)millis() );
+
+      // Update bargauge1 (UIBarGauge)
+      bargauge1->setValue( ( millis() / 20 ) % 101 );
 
       // Update imgpanel1 (UIImagePanel)
       M5Canvas *canvas = imgpanel1->getImage();
@@ -200,10 +198,8 @@ class MainScreen : public UIScreen {
       imgpanel1->setUpdate();
     }
 
-    // Draw main screen
     virtual void draw( DrawingMode dmode ) override {
       DrawingContext dc = beginDraw();
-      // Fill screen and draw a frame only if TotalRedraw is required.
       if ( dmode == DrawingMode::TotalRedraw ) {
         dc.canvas->fillScreen( TFT_BLACK );
         dc.canvas->fillRoundRect( 0, 0, dc.rect.width, dc.rect.height, 15, TFT_CYAN );
@@ -213,24 +209,18 @@ class MainScreen : public UIScreen {
     }
 };
 
-static UIBase *uibase;        // OaktreeLab::M5LiteUI core
-static MainScreen *screen;    // An instance of MainScreen
+static UIBase *uibase;
+static MainScreen *screen;
 
 void setup() {
   M5.begin();
-
-  // Initialize M5LiteUI core
   uibase = new UIBase( &M5.Display );
-
-  // Create MainScreen and show
   screen = new MainScreen();
   uibase->setScreen( screen );
 }
 
 void loop() {
   M5.update();
-
-  // Update M5LiteUI
   uibase->loop();
 }
 ```
@@ -243,6 +233,7 @@ graph TD;
     UIWindow-->UIScreen;
     UIElement-->UIButton;
     UIElement-->UIImagePanel;
+    UIElement-->UIBarGauge;
     UIElement-->UILabel;
     UILabel-->UINumericLabel;
     UINumericLabel-->UINumericUpDown;
