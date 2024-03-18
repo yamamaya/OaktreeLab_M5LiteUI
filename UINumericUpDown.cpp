@@ -18,15 +18,30 @@ void OaktreeLab::M5LiteUI::UINumericUpDown::setValueStep( int step ) {
 
 void OaktreeLab::M5LiteUI::UINumericUpDown::onUIEvent( const UIEventArg &arg ) {
   if ( arg.event == UIEvent::ButtonPress || arg.event == UIEvent::ButtonRepeat ) {
+    if ( arg.event == UIEvent::ButtonPress ) {
+      repeatCount = 0;
+    } else if ( arg.event == UIEvent::ButtonRepeat ) {
+      repeatCount ++;
+    }
     int32_t value = getValue();
     int32_t prevValue = value;
+    int32_t step_acc;
+    if ( repeatCount < 5 ) {
+      step_acc = step;
+    } else if ( repeatCount < 20 ) {
+      step_acc = step * 5;
+    } else if ( repeatCount < 30 ) {
+      step_acc = step * 10;
+    } else {
+      step_acc = step * 50;
+    }
     if ( arg.source == UIEventSource::ButtonB ) {
-      value -= step;
+      value -= step_acc;
       if ( value < minValue ) {
         value = minValue;
       }
     } else if ( arg.source == UIEventSource::ButtonC ) {
-      value += step;
+      value += step_acc;
       if ( value > maxValue ) {
         value = maxValue;
       }

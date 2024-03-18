@@ -22,6 +22,7 @@ namespace OaktreeLab {
         int32_t minValue;
         int32_t maxValue;
         int32_t step;
+        int32_t repeatCount;
     };
   }
 }
