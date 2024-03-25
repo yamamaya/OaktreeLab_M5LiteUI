@@ -54,6 +54,14 @@ namespace OaktreeLab {
       lgfx::v1::LGFXBase *canvas;
       Rectangle rect;
     };
+
+    enum class BackBufferType {
+        None = 0,
+        Palette1bit = 1,
+        Palette2bit = 2,
+        Palette4bit = 4,
+        RGB16bit = 16
+    };
   }
 }
 

@@ -15,7 +15,8 @@ namespace OaktreeLab {
       friend class UIWindow;
       public:
         UIElement( UIElement *parent );
-        UIElement( UIElement *parent, const Rectangle &rect, bool useBackBuffer = false );
+        UIElement( UIElement *parent, const Rectangle &rect, bool useBackBuffer );
+        UIElement( UIElement *parent, const Rectangle &rect, BackBufferType backbuffer = BackBufferType::None );
         virtual ~UIElement();
 
         void addChild( UIElement *child );
@@ -40,7 +41,6 @@ namespace OaktreeLab {
         virtual void draw( DrawingMode dmode );
         virtual void drawOverlay();
         virtual void onUIEvent( const UIEventArg &arg );
-        virtual int getRequiredBackBufferColorDepth();
 
         void giveFocus();
         void takeFocus();

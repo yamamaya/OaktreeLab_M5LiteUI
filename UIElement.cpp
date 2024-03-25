@@ -33,21 +33,23 @@ OaktreeLab::M5LiteUI::UIElement::UIElement( UIElement *parent ) : UIElement() {
   this->font = parent->font;
 }
 
-OaktreeLab::M5LiteUI::UIElement::UIElement( UIElement *parent, const Rectangle &rect, bool useBackBuffer ) : UIElement( parent ) {
+OaktreeLab::M5LiteUI::UIElement::UIElement( UIElement *parent, const Rectangle &rect, BackBufferType backbuffer ) : UIElement( parent ) {
   this->rectElement = rect;
-  if ( useBackBuffer ) {
-    int depth = getRequiredBackBufferColorDepth();
-    backBuffer = createBackBuffer( rect.width, rect.height, depth );
-    if ( depth == 1 ) {
+  if ( backbuffer != BackBufferType::None ) {
+    backBuffer = createBackBuffer( rect.width, rect.height, (int)backbuffer );
+    if ( backbuffer == BackBufferType::Palette1bit ) {
       this->bgColor = 0;
       this->fgColor = 1;
-    } else if ( depth == 2 ) {
+    } else if ( backbuffer ==  BackBufferType::Palette2bit ) {
       this->bgColor = 0;
       this->fgColor = 3;
     }
   } else {
     backBuffer = NULL;
   }
+}
+
+OaktreeLab::M5LiteUI::UIElement::UIElement( UIElement *parent, const Rectangle &rect, bool useBackBuffer ) : UIElement( parent, rect, ( useBackBuffer ? BackBufferType::Palette1bit : BackBufferType::None ) ) {
 }
 
 OaktreeLab::M5LiteUI::UIElement::~UIElement() {
@@ -57,10 +59,6 @@ OaktreeLab::M5LiteUI::UIElement::~UIElement() {
   if ( backBuffer != NULL ) {
     delete backBuffer;
   }
-}
-
-int OaktreeLab::M5LiteUI::UIElement::getRequiredBackBufferColorDepth() {
-  return 1;  
 }
 
 int OaktreeLab::M5LiteUI::UIElement::getBackBufferColorDepth() {
